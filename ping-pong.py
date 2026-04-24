@@ -26,19 +26,19 @@ class Update(GameSprite):
         keys = pg.key.get_pressed()
         if keys[pg.K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
-        if keys[pg.K_s] and self.rect.y < 400:
+        if keys[pg.K_s] and self.rect.y < 393:
             self.rect.y += self.speed
     def update_r(self):
         self.reset()
         keys = pg.key.get_pressed()
         if keys[pg.K_UP] and self.rect.y > 5:
             self.rect.y -= self.speed
-        if keys[pg.K_DOWN] and self.rect.y < 400:
+        if keys[pg.K_DOWN] and self.rect.y < 393:
             self.rect.y += self.speed
 
 Ball = GameSprite('Ball.png', 400, 250, 5, 50, 50)
 rocketL = Update('rocket.png', 10, 10, 5, 3, 100)
-rocketR = Update('rocket.png', 760, 400, 5, 3, 100)
+rocketR = Update('rocket.png', 785, 393, 5, 3, 100)
 
 FPS = 60
 Clock = pg.time.Clock()
