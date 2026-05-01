@@ -15,9 +15,8 @@ class GameSprite(pg.sprite.Sprite):
         self.rect.x = player_x
         self.rect.y = player_y
     def Outline(self):
-        pg.draw.rect(window, (255, 0, 0), self.rect, 4)
+        pg.draw.rect(window, (255, 0, 0), self.rect, 5)
     def reset(self):
-        self.Outline()
         window.blit(self.image, (self.rect.x, self.rect.y))
 
 class Update(GameSprite):
@@ -26,19 +25,22 @@ class Update(GameSprite):
         keys = pg.key.get_pressed()
         if keys[pg.K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
-        if keys[pg.K_s] and self.rect.y < 393:
+        if keys[pg.K_s] and self.rect.y < 360:
             self.rect.y += self.speed
     def update_r(self):
         self.reset()
         keys = pg.key.get_pressed()
         if keys[pg.K_UP] and self.rect.y > 5:
             self.rect.y -= self.speed
-        if keys[pg.K_DOWN] and self.rect.y < 393:
+        if keys[pg.K_DOWN] and self.rect.y < 360:
             self.rect.y += self.speed
 
-Ball = GameSprite('Ball.png', 400, 250, 5, 50, 50)
-rocketL = Update('rocket.png', 10, 10, 5, 3, 100)
-rocketR = Update('rocket.png', 785, 393, 5, 3, 100)
+Ball = GameSprite('Ball.png', 200, 250, 5, 50, 50)
+rocketL = Update('rocket.png', 10, 10, 5, 3, 130)
+rocketR = Update('rocket.png', 785, 360, 5, 3, 130)
+
+y_speed = 3
+x_speed = 3
 
 FPS = 60
 Clock = pg.time.Clock()
@@ -47,8 +49,18 @@ while game:
     for q in pg.event.get():
         if q.type == pg.QUIT:
             game = False
+    Ball.rect.x += x_speed
+    Ball.rect.y -= y_speed
+    if Ball.rect.y >= 455 or Ball.rect.y <= 0:
+        y_speed *= -1
+    if pg.sprite.collide_rect(Ball, rocketL):
+        x_speed *= -1
+    if pg.sprite.collide_rect(Ball, rocketR):
+        x_speed *= -1
     rocketL.update_l()
     rocketR.update_r()
+    rocketL.Outline()
+    rocketR.Outline()
     Ball.reset()
     pg.display.update()
     Clock.tick(FPS)
